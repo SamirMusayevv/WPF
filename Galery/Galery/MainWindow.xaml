@@ -9,7 +9,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="45"></RowDefinition>
             <RowDefinition Height="2*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -24,29 +24,29 @@
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
-                <ColumnDefinition Width="1.2*"></ColumnDefinition>
-                <ColumnDefinition Width="0.7"></ColumnDefinition>
-                <ColumnDefinition Width="1.5*"></ColumnDefinition>
-                <ColumnDefinition Width="0.7"></ColumnDefinition>
-                <ColumnDefinition Width="1.2*"></ColumnDefinition>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="55"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition Width="1"></ColumnDefinition>
+                <ColumnDefinition Width="55"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Margin="5" Background="Black" BorderBrush="Black">
-                <Image Stretch="Uniform" Source="images/folder.png" ToolTip="Open file dialog"/>
+            <Button Grid.Column="0" Margin="5" Background="Black" BorderBrush="Black" ToolTip="Open folder">
+                <Image Stretch="Uniform" Source="images/folder.png"/>
             </Button>
-            <Button Grid.Column="2" Margin="10">
-                <Image Stretch="Uniform"/>
+            <Button Grid.Column="2" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Last track">
+                <Image Stretch="Fill" Source="images/last_track.png"/>
             </Button>
-            <Button Grid.Column="4" Margin="4" Background="Black" BorderBrush="Black">
-                <Image Stretch="Uniform" />
+            <Button Grid.Column="4" Background="Black" BorderBrush="Black" Margin="5" ToolTip="Play">
+                <Image Stretch="Fill" Source="images/play.PNG"/>
             </Button>
-            <Button Grid.Column="6" Margin="10">
-                <Image Stretch="Uniform" Source="images/next_track.png"/>
+            <Button Grid.Column="6" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Next track">
+                <Image Stretch="Fill" Source="images/next_track.png"/>
             </Button>
-            <Button Grid.Column="8" Margin="5" Background="Black" BorderBrush="Black">
+            <Button Grid.Column="8" Margin="5" Background="Black" BorderBrush="Black" ToolTip="Informathion">
                 <Image Stretch="Uniform" Source="images/Info.png"/>
             </Button>
         </Grid>
