@@ -6,11 +6,35 @@
         xmlns:local="clr-namespace:Galery"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="900" Background="Black">
+    <Window.Resources>
+        
+        <local:ImageSourceConverter x:Key="converter"/>
+
+        <ControlTemplate TargetType="Button" x:Key="ImgPortret">
+            <Border BorderBrush="Green" BorderThickness="4">
+                <Image
+                       Stretch="UniformToFill"
+                       Source="{TemplateBinding Content, Converter={StaticResource converter}}">
+                </Image>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate TargetType="Button" x:Key="ImgButton">
+            <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2">
+                <Image Width="{TemplateBinding Width}"
+                       Height="{TemplateBinding Height}"
+                       Stretch="UniformToFill"
+                       Source="{TemplateBinding Content, Converter={StaticResource converter}}">
+                </Image>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"></RowDefinition>
             <RowDefinition Height="45"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="122"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -19,7 +43,7 @@
                 <ColumnDefinition Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <TextBox Grid.Column="0" Background="AntiqueWhite" Margin="5"/>
-            <Image Grid.Column="1" Margin="5" Stretch="UniformToFill" Source="images/cat.jpg"/>
+            <DockPanel Grid.Column="1" Name="DockPortret"/>
             <TextBox Grid.Column="2" Background="AntiqueWhite" Margin="5"/>
         </Grid>
         <Grid Grid.Row="1">
@@ -37,13 +61,13 @@
             <Button Grid.Column="0" Margin="5" Background="Black" BorderBrush="Black" ToolTip="Open folder">
                 <Image Stretch="Uniform" Source="images/folder.png"/>
             </Button>
-            <Button Grid.Column="2" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Last track">
+            <Button Grid.Column="2" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Last track" Click="ButtonLast_Click">
                 <Image Stretch="Fill" Source="images/last_track.png"/>
             </Button>
             <Button Grid.Column="4" Background="Black" BorderBrush="Black" Margin="5" ToolTip="Play">
                 <Image Stretch="Fill" Source="images/play.PNG"/>
             </Button>
-            <Button Grid.Column="6" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Next track">
+            <Button Grid.Column="6" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Next track" Click="ButtonNext_Click">
                 <Image Stretch="Fill" Source="images/next_track.png"/>
             </Button>
             <Button Grid.Column="8" Margin="5" Background="Black" BorderBrush="Black" ToolTip="Informathion">
@@ -54,6 +78,7 @@
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Row="0" Grid.Column="0">
                     <Grid.RowDefinitions>
@@ -65,6 +90,7 @@
                         <Image Stretch="Fill" Source="images/add.PNG"/>
                     </Button>
                 </Grid>
+                <WrapPanel Grid.Row="1" Grid.Column="1" x:Name="WrapPanelChildren" MouseDown="WrapPanelChildren_MouseDown"/>
             </Grid>
         </ScrollViewer>
     </Grid>
