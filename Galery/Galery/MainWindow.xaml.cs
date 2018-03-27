@@ -3,7 +3,8 @@ using System.Windows;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Input;
+using System.Windows.Threading;
+using System;
 
 namespace Galery
 {
@@ -14,17 +15,25 @@ namespace Galery
     {
         private ImageFilesFilter _imageFilesFilter;
         private DirectoryInfo _folder;
+        private List<List<string>> _albums;
         private List<string> _albumImages;
         private int _currentImageNumber;
         private int _oldImageNumber;
+        private bool _timerBool;
+        private DispatcherTimer _dispatcherTimer;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _imageFilesFilter = new ImageFilesFilter();
+            _albums = new List<List<string>>();
             _albumImages = new List<string>();
             _currentImageNumber = 0;
+            _timerBool = false;
+            _dispatcherTimer = new DispatcherTimer();
+            _dispatcherTimer.Interval = TimeSpan.FromSeconds(2);
+            _dispatcherTimer.IsEnabled = false;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -45,6 +54,8 @@ namespace Galery
                             _albumImages.Add(fullPath);
                         }
                     }
+                    _albums.Add(_albumImages);
+                    WrapPanelChildren.Children.Clear();
                     WrapPanelChildrenAdd(_albumImages);
                     PortretImage(_albumImages);
                 }
@@ -83,10 +94,42 @@ namespace Galery
                             Content = paths[_currentImageNumber]
                         };
                         portret.Template = FindResource("ImgPortret") as ControlTemplate;
-                        DockPortret.Children.Add(portret);
                         CurrentImageNumber();
+                        DockPortret.Children.Clear();
+                        DockPortret.Children.Add(portret);
                     }
                 }
+            }
+        }
+
+        private void ButtonFolder_Click(object sender, RoutedEventArgs e)
+        {
+            if (_albums.Count != 0)
+            {
+                for (int i = 0; i < _albums.Count; i++)
+                {
+                    var lbl = new Button
+                    {
+                        Height = 50,
+                        Width = 100,
+                        BorderBrush = Brushes.Green,
+                        Content = $"Album{i}"
+                    };
+                    lbl.Template = FindResource("AlbumBtn") as ControlTemplate;
+                    AlbumWrapPanel.Children.Add(lbl);
+                }
+                //foreach (var album in _albums)
+                //{
+                //    var lbl = new Button
+                //    {
+                //        Height = 50,
+                //        Width = 50,
+                //        BorderBrush = Brushes.Green,
+                //        Content = @"Album{}"
+                //    };
+                //    lbl.Template = FindResource("AlbumBtn") as ControlTemplate;
+                //    AlbumWrapPanel.Children.Add(lbl);
+                //}
             }
         }
 
@@ -96,7 +139,7 @@ namespace Galery
             {
                 _oldImageNumber = _currentImageNumber;
                 _currentImageNumber++;
-                DeleteDockChild();
+                DockPortret.Children.Clear();
                 for (int i = 0; i < _albumImages.Count - 1; i++)
                 {
                     if (i == _oldImageNumber)
@@ -112,7 +155,7 @@ namespace Galery
             {
                 _oldImageNumber = _currentImageNumber;
                 _currentImageNumber--;
-                DeleteDockChild();
+                DockPortret.Children.Clear();
                 for (int i = _albumImages.Count - 1; i > 0; i--)
                 {
                     if (i == _oldImageNumber)
@@ -129,7 +172,7 @@ namespace Galery
             OldImageNumber();
             _currentImageNumber = WrapPanelChildren.Children.IndexOf(btn);
             CurrentImageNumber();
-            DeleteDockChild();
+            DockPortret.Children.Clear();
             PortretImage(_albumImages);
         }
 
@@ -145,10 +188,50 @@ namespace Galery
             oldImage.BorderBrush = Brushes.Red;
         }
 
-        private void DeleteDockChild()
+        private void ButtonPlay_Click(object sender, RoutedEventArgs e)
         {
-            if (DockPortret.Children.Count != 0)
-                DockPortret.Children.Remove(DockPortret.Children[0]);
+            if (WrapPanelChildren.Children.Count > 1)
+            {
+                if (_timerBool)
+                {
+                    _dispatcherTimer.IsEnabled = false;
+                    _timerBool = false;
+                    var play = new Button
+                    {
+                        Content = @"C:\Users\samir\source\repos\WPF\Galery\Galery\Images\play.PNG",
+                    };
+                    play.Template = FindResource("btnPlay") as ControlTemplate;
+                    dockPlay.Children.Clear();
+                    dockPlay.Children.Add(play);
+                }
+                else
+                {
+                    _timerBool = true;
+                    var pause = new Button
+                    {
+                        Content = @"C:\Users\samir\source\repos\WPF\Galery\Galery\Images\pause.PNG",
+                    };
+                    pause.Template = FindResource("btnPlay") as ControlTemplate;
+                    dockPlay.Children.Clear();
+                    dockPlay.Children.Add(pause);
+
+                    _dispatcherTimer.Tick += DTTicker;
+                    _dispatcherTimer.IsEnabled = true;
+                }
+            }
+            else
+                MessageBox.Show("No photos for slideshow!", "Informathion", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        private void DTTicker(object sender, EventArgs e)
+        {
+            if (_currentImageNumber < _albumImages.Count - 1)
+            {
+                _oldImageNumber = _currentImageNumber;
+                _currentImageNumber++;
+                PortretImage(_albumImages);
+                OldImageNumber();
+            }
         }
     }
 }

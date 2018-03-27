@@ -119,10 +119,10 @@
     <Resource Include="Images\next_track.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\play.png" />
+    <Resource Include="Images\add.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\add.png" />
+    <Resource Include="Images\play.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

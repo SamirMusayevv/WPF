@@ -10,6 +10,18 @@
         
         <local:ImageSourceConverter x:Key="converter"/>
 
+        <ControlTemplate TargetType="Button" x:Key="AlbumBtn">
+            <Border BorderBrush="{TemplateBinding BorderBrush}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="2">
+                <Label Content="{TemplateBinding Content}"></Label>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate TargetType="Button" x:Key="btnPlay">
+            <Image Stretch="Uniform"
+                       Source="{TemplateBinding Content, Converter={StaticResource converter}}">
+            </Image>
+        </ControlTemplate>
+
         <ControlTemplate TargetType="Button" x:Key="ImgPortret">
             <Border BorderBrush="Green" BorderThickness="4">
                 <Image
@@ -33,7 +45,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="7*"></RowDefinition>
-            <RowDefinition Height="45"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="122"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -42,9 +54,9 @@
                 <ColumnDefinition Width="7*"></ColumnDefinition>
                 <ColumnDefinition Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Background="AntiqueWhite" Margin="5"/>
+            <WrapPanel Name="AlbumWrapPanel" Grid.Column="0" Background="AntiqueWhite" Margin="5"/>
             <DockPanel Grid.Column="1" Name="DockPortret"/>
-            <TextBox Grid.Column="2" Background="AntiqueWhite" Margin="5"/>
+            <Button Grid.Column="2" Background="AntiqueWhite" Margin="5"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -52,20 +64,22 @@
                 <ColumnDefinition Width="5*"></ColumnDefinition>
                 <ColumnDefinition Width="55"></ColumnDefinition>
                 <ColumnDefinition Width="1"></ColumnDefinition>
-                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition Width="55"></ColumnDefinition>
                 <ColumnDefinition Width="1"></ColumnDefinition>
                 <ColumnDefinition Width="55"></ColumnDefinition>
                 <ColumnDefinition Width="5*"></ColumnDefinition>
                 <ColumnDefinition Width="50"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Margin="5" Background="Black" BorderBrush="Black" ToolTip="Open folder">
+            <Button Grid.Column="0" Margin="5" Background="Black" BorderBrush="Black" ToolTip="Open folder" Click="ButtonFolder_Click">
                 <Image Stretch="Uniform" Source="images/folder.png"/>
             </Button>
             <Button Grid.Column="2" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Last track" Click="ButtonLast_Click">
                 <Image Stretch="Fill" Source="images/last_track.png"/>
             </Button>
-            <Button Grid.Column="4" Background="Black" BorderBrush="Black" Margin="5" ToolTip="Play">
-                <Image Stretch="Fill" Source="images/play.PNG"/>
+            <Button Grid.Column="4" Name="buttonPlay" Background="Black" BorderBrush="Black" Margin="5" ToolTip="Play" Click="ButtonPlay_Click">
+                <DockPanel Name="dockPlay">
+                    <Image Stretch="Fill" Source="images/play.PNG"/>
+                </DockPanel>
             </Button>
             <Button Grid.Column="6" Margin="12" Background="Black" BorderBrush="Black" ToolTip="Next track" Click="ButtonNext_Click">
                 <Image Stretch="Fill" Source="images/next_track.png"/>
