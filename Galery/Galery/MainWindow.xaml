@@ -12,7 +12,19 @@
 
         <ControlTemplate TargetType="Button" x:Key="AlbumBtn">
             <Border BorderBrush="{TemplateBinding BorderBrush}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="2">
-                <Label Content="{TemplateBinding Content}"></Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"
+                           Stretch="Uniform"
+                           Source="C:\Users\samir\source\repos\WPF\Galery\Galery\Images\folder.png"
+                           Height="50"
+                           Width="50">
+                    </Image>
+                    <Label Margin="0, 17, 0, 0" Grid.Column="1" FontSize="16" Content="{TemplateBinding Content}"></Label>
+                </Grid>
             </Border>
         </ControlTemplate>
 

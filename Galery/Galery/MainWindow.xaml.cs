@@ -20,6 +20,7 @@ namespace Galery
         private int _currentImageNumber;
         private int _oldImageNumber;
         private bool _timerBool;
+        private bool _showAlbums;
         private DispatcherTimer _dispatcherTimer;
 
         public MainWindow()
@@ -28,12 +29,12 @@ namespace Galery
 
             _imageFilesFilter = new ImageFilesFilter();
             _albums = new List<List<string>>();
-            _albumImages = new List<string>();
             _currentImageNumber = 0;
             _timerBool = false;
             _dispatcherTimer = new DispatcherTimer();
             _dispatcherTimer.Interval = TimeSpan.FromSeconds(2);
             _dispatcherTimer.IsEnabled = false;
+            _showAlbums = true;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -46,6 +47,7 @@ namespace Galery
                 _folder = new DirectoryInfo(openFolder.SelectedPath);
                 if (_folder.Exists)
                 {
+                    _albumImages = new List<string>();
                     foreach (var path in _folder.GetFiles())
                     {
                         if (_imageFilesFilter.CheckImages(path.ToString()))
@@ -55,6 +57,25 @@ namespace Galery
                         }
                     }
                     _albums.Add(_albumImages);
+                    if (_showAlbums)
+                    {
+                        _showAlbums = false;
+                        if (_albums.Count != 0)
+                        {
+                            for (int i = 0; i < _albums.Count; i++)
+                            {
+                                var lbl = new Button
+                                {
+                                    Height = 70,
+                                    Width = 150,
+                                    BorderBrush = Brushes.Green,
+                                    Content = $"Album{i + 1}"
+                                };
+                                lbl.Template = FindResource("AlbumBtn") as ControlTemplate;
+                                AlbumWrapPanel.Children.Add(lbl);
+                            }
+                        }
+                    }
                     WrapPanelChildren.Children.Clear();
                     WrapPanelChildrenAdd(_albumImages);
                     PortretImage(_albumImages);
@@ -104,32 +125,30 @@ namespace Galery
 
         private void ButtonFolder_Click(object sender, RoutedEventArgs e)
         {
-            if (_albums.Count != 0)
+            if (_showAlbums)
             {
-                for (int i = 0; i < _albums.Count; i++)
+                _showAlbums = false;
+                AlbumWrapPanel.Children.Clear();
+                if (_albums.Count != 0)
                 {
-                    var lbl = new Button
+                    for (int i = 0; i < _albums.Count; i++)
                     {
-                        Height = 50,
-                        Width = 100,
-                        BorderBrush = Brushes.Green,
-                        Content = $"Album{i}"
-                    };
-                    lbl.Template = FindResource("AlbumBtn") as ControlTemplate;
-                    AlbumWrapPanel.Children.Add(lbl);
+                        var lbl = new Button
+                        {
+                            Height = 70,
+                            Width = 150,
+                            BorderBrush = Brushes.Green,
+                            Content = $"Album{i + 1}"
+                        };
+                        lbl.Template = FindResource("AlbumBtn") as ControlTemplate;
+                        AlbumWrapPanel.Children.Add(lbl);
+                    }
                 }
-                //foreach (var album in _albums)
-                //{
-                //    var lbl = new Button
-                //    {
-                //        Height = 50,
-                //        Width = 50,
-                //        BorderBrush = Brushes.Green,
-                //        Content = @"Album{}"
-                //    };
-                //    lbl.Template = FindResource("AlbumBtn") as ControlTemplate;
-                //    AlbumWrapPanel.Children.Add(lbl);
-                //}
+            }
+            else
+            {
+                _showAlbums = true;
+                AlbumWrapPanel.Children.Clear();
             }
         }
 
