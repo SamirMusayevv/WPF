@@ -11,7 +11,7 @@
         <local:ImageSourceConverter x:Key="converter"/>
 
         <ControlTemplate TargetType="Button" x:Key="AlbumBtn">
-            <Border BorderBrush="{TemplateBinding BorderBrush}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="2">
+            <Border BorderBrush="{TemplateBinding BorderBrush}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" BorderThickness="3">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="70"></ColumnDefinition>
@@ -44,7 +44,7 @@
         </ControlTemplate>
 
         <ControlTemplate TargetType="Button" x:Key="ImgButton">
-            <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="2">
+            <Border Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="3">
                 <Image Width="{TemplateBinding Width}"
                        Height="{TemplateBinding Height}"
                        Stretch="UniformToFill"
@@ -66,7 +66,7 @@
                 <ColumnDefinition Width="7*"></ColumnDefinition>
                 <ColumnDefinition Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <WrapPanel Name="AlbumWrapPanel" Grid.Column="0" Background="AntiqueWhite" Margin="5"/>
+            <WrapPanel MouseDown="AlbumWrapPanel_MouseDown" Name="AlbumWrapPanel" Grid.Column="0" Background="AntiqueWhite" Margin="5"/>
             <DockPanel Grid.Column="1" Name="DockPortret"/>
             <Button Grid.Column="2" Background="AntiqueWhite" Margin="5"/>
         </Grid>
@@ -116,7 +116,7 @@
                         <Image Stretch="Fill" Source="images/add.PNG"/>
                     </Button>
                 </Grid>
-                <WrapPanel Grid.Row="1" Grid.Column="1" x:Name="WrapPanelChildren" MouseDown="WrapPanelChildren_MouseDown"/>
+                <WrapPanel Grid.Row="1" Grid.Column="1" x:Name="WrapPanelImages" MouseDown="WrapPanelChildren_MouseDown"/>
             </Grid>
         </ScrollViewer>
     </Grid>
